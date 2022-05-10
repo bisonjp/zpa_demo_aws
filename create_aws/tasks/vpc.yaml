@@ -1,0 +1,11 @@
+- name: Create VPC
+  ec2_vpc_net:
+    name: "{{ vpc_name }}"
+    cidr_block: "{{ vpc_cidr }}"
+    region: "{{ region }}"
+    dns_hostnames: yes
+    dns_support: yes
+    tags:
+     Ansible: "{{ tag }}"
+  register: vpc_info
+ 

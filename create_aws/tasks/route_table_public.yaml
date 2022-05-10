@@ -1,0 +1,11 @@
+- name: Create public subnet route table
+  ec2_vpc_route_table:
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    region: "{{ region }}" 
+    lookup: tag
+    tags: { "Name": "{{ rt_public.name }}", "Ansible": "{{ tag }}" }
+    subnets: "{{ subnet_info.subnets | selectattr('tags.Name', 'search', 'public-subnet-a') | map(attribute='subnet_id') | first }}"
+    routes:
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ vpc_igw.gateway_id }}"
+  register: public_route_table

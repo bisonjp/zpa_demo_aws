@@ -1,0 +1,24 @@
+# Create SecurityGroup 
+- name: Create Security Group 
+  ec2_group:
+    name: "{{ item.value.group_name }}"
+    description: "{{ item.value.description }}"
+    region: "{{ region }}"
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    rules: >-
+      {%- if item.value.rules|length == 1 -%}
+        {{ item.value.rules }}
+      {%- else -%}
+        {{ item.value.rules | join(',') }}
+      {%- endif -%}
+    rules_egress: >-
+      {%- if item.value.rules|length == 1 -%}
+        {{ item.value.rules_egress }}
+      {%- else -%}
+        {{ item.value.rules_egress | join(',') }}
+      {%- endif -%}
+    tags: { "Name":"{{ item.value.group_name }}", "Ansible": "{{ tag }}" }
+  with_dict: "{{ security_group }}"
+  when: security_group is defined
+  ignore_errors: yes
+  register: sg

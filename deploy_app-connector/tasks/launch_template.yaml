@@ -1,0 +1,19 @@
+- amazon.aws.ec2_group_info:
+    filters:
+      group_name: "{{ launch_template.security_group }}"
+  register: sg_info 
+
+- name: Create an ec2 launch template
+  community.aws.ec2_launch_template:
+    name: "{{ launch_template.name }}" 
+    image_id: "{{ launch_template.image_id }}"
+    key_name: "{{ launch_template.key_name }}"
+    instance_type: "{{ launch_template.instance_type }}"
+    security_group_ids: "{{ item.group_id }}"
+    default_version: 'latest'
+    tags:
+      Ansible: "{{ tag }}"
+    user_data: "{{ launch_template.user_data | b64encode }}"
+    disable_api_termination: no
+  with_items:
+   - "{{ sg_info.security_groups }}"

@@ -1,0 +1,7 @@
+- name: Create Internet Gateway
+  ec2_vpc_igw:
+    region: "{{ region }}"
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    state: present
+    tags: { "Name": "{{ igw_name }}", "Ansible": "{{ tag }}" }
+  register: vpc_igw

@@ -1,0 +1,7 @@
+- name: Delete AWS Environment for ZPA Demo 
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  become: False
+  roles:
+    - aws_vpc_delete

@@ -1,0 +1,20 @@
+# vars file for zpa demo
+  tag: ""
+
+# REGION
+  region: "ap-northeast-1"
+ 
+# PROFILE
+  profile: "ansible"
+ 
+# VPC
+  vpc_name: "{{ tag + '-vpc' }}" 
+  vpc_cidr: "10.10.0.0/16"
+
+# Launch template
+  launch_template:
+    name: "{{ tag + '-launch_template' }}" 
+
+# ASG
+  asg:
+    name: "{{ tag + '-asg' }}" 

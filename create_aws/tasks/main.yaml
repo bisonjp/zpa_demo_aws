@@ -1,0 +1,9 @@
+- include_tasks: vpc.yaml
+- include_tasks: igw.yaml
+- include_tasks: subnet_private.yaml
+- include_tasks: subnet_public.yaml
+- include_tasks: sg.yaml
+- include_tasks: key_pair.yaml
+- include_tasks: nat_gw.yaml
+- include_tasks: route_table_public.yaml
+- include_tasks: route_table_private.yaml

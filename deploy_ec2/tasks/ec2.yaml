@@ -1,0 +1,18 @@
+- name: Get subnet info
+  ec2_vpc_subnet_info:
+    filters:
+      "tag:Ansible": "{{ tag }}"
+  register: subnet_info
+
+- name: Create EC2 with Apache
+  ec2_instance:
+    name: "{{ ec2_instance.name }}"
+    image_id: "{{ ec2_instance.image_id }}"
+    instance_type: "{{ ec2_instance.instance_type }}"
+    key_name: "{{ ec2_instance.key_name }}"
+    vpc_subnet_id: "{{ subnet_info.subnets | selectattr('tags.Name', 'search', 'private-subnet-a') | map(attribute='subnet_id') | first }}"
+    security_group: "{{ ec2_instance.security_group }}"
+    region: "{{ region }}"
+    tags:
+      Ansible: "{{ tag }}"
+    user_data: "{{ ec2_instance.user_data }}"

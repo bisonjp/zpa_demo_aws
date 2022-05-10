@@ -1,0 +1,7 @@
+- name: Deploy App Connector for ZPA Demo 
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  become: False
+  roles:
+    - deploy_app-connector

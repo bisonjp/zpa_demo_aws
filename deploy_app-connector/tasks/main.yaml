@@ -1,0 +1,2 @@
+- include_tasks: launch_template.yaml
+- include_tasks: asg.yaml

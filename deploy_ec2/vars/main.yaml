@@ -1,0 +1,25 @@
+# vars file for zpa demo
+  tag: ""
+
+# REGION
+  region: "ap-northeast-1"
+ 
+# PROFILE
+  profile: "ansible"
+
+# EC2
+  ec2_instance:
+    name: engineer 
+    instance_type: t2.small
+    image_id: ami-0bcc04d20228d0cf6
+    instance_profile_name: web
+    key_name: "{{ tag }}" 
+    security_group: "{{ tag + '-common_sg' }}"
+    user_data: |
+      #!/bin/bash
+      yum install -y httpd
+      systemctl start httpd
+      systemctl enable httpd
+      touch /var/www/html/index.html
+      chmod 775 /var/www/html/index.html
+      echo "test" > /var/www/html/index.html

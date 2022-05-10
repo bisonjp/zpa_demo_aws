@@ -1,0 +1,11 @@
+- name: Create private subnet route table
+  ec2_vpc_route_table:
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    region: "{{ region }}" 
+    lookup: tag
+    tags: { "Name": "{{ rt_private.name }}", "Ansible": "{{ tag }}" }
+    subnets: "{{ subnet_info.subnets | selectattr('tags.Name', 'search', 'private') | map(attribute='subnet_id') | list }}"
+    routes:
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ natgw.nat_gateway_id }}"
+  register: private_route_table

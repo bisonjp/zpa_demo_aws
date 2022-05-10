@@ -1,0 +1,105 @@
+  - name: get VPC info
+    ec2_vpc_net_info:
+      filters:
+        "tag:Ansible": "{{ tag }}"
+    register: vpc_info 
+
+  - name: Delete ASG
+    community.aws.ec2_asg:
+      name: "{{ asg.name }}"
+      tags:
+        - Ansible: "{{ tag }}" 
+      state: absent
+
+  - name: get EC2 Instance info
+    ec2_instance_info:
+      filters:
+        "tag:Ansible": "{{ tag }}" 
+    register: ec2_info
+
+  - name: Terminate EC2 Instance
+    ec2_instance:
+      state: absent
+      instance_ids: "{{ item.instance_id }}"
+      wait: yes
+    loop: "{{ ec2_info.instances }}"
+
+  - name: Delete SSH Keys
+    ec2_key:
+      name: "{{ tag }}"
+      state: absent
+
+  - name: get NAT Gateway info
+    ec2_vpc_nat_gateway_info:
+      filters:
+        "tag:Ansible": "{{ tag }}"
+        state: available 
+    register: natgw_info
+
+  - name: Delete NAT Gateway
+    ec2_vpc_nat_gateway:
+      state: absent
+      nat_gateway_id: "{{ item.nat_gateway_id }}"
+      release_eip: yes
+      wait: true
+      wait_timeout: 300
+    loop: "{{ natgw_info.result }}" 
+
+  - name: Delete Internet Gateway
+    ec2_vpc_igw:
+      state: absent
+      vpc_id: "{{ item.vpc_id }}"
+    loop: "{{ vpc_info.vpcs }}"
+
+  - name: Get Route table info
+    ec2_vpc_route_table_info:
+      filters:
+        "tag:Ansible": "{{ tag }}"
+    register: rt_info
+
+  - name: Delete Route table
+    ec2_vpc_route_table:
+      state: absent
+      lookup: id 
+      vpc_id: "{{ item.vpc_id }}"
+      route_table_id: "{{ item.id }}"
+    loop: "{{ rt_info.route_tables }}" 
+
+  - name: Get Subnet info 
+    ec2_vpc_subnet_info:
+      filters:
+        "tag:Ansible": "{{ tag }}"
+    register: subnet_info
+
+  - name: Delete Subnet
+    ec2_vpc_subnet:
+      state: absent
+      vpc_id: "{{ item.vpc_id }}"
+      cidr: "{{ item.cidr_block }}"
+    loop: "{{ subnet_info.subnets }}"
+
+  - name: Get Security Group info 
+    ec2_group_info:
+      filters:
+        "tag:Ansible": "{{ tag }}" 
+    register: sg_info
+
+  - name: Delete Security group
+    ec2_group:
+      state: absent
+      group_id: "{{ item.group_id }}"
+    loop: "{{ sg_info.security_groups }}"
+
+  - name: Delete VPC
+    ec2_vpc_net:
+      name: "{{ vpc_name }}"
+      cidr_block: "{{ vpc_cidr }}"
+      state: absent
+
+  - name: Delete launch template
+    community.aws.ec2_launch_template:
+      name: "{{ launch_template.name }}"
+      tags:
+        Ansible: "{{ tag }}"
+      state: absent
+

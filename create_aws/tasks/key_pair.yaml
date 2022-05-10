@@ -1,0 +1,9 @@
+# Create Key pair
+- name: Create Key pair
+  amazon.aws.ec2_key:
+    name: "{{ tag }}"
+  register: zpa_demo_key
+
+- name: output key
+  shell: echo "{{ zpa_demo_key.key.private_key }}" > ~/.ssh/{{ zpa_demo_key.key.name }}.pem
+  when: zpa_demo_key.key.private_key is defined

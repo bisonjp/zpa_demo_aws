@@ -1,0 +1,18 @@
+- name: Get subnet info
+  ec2_vpc_subnet_info:
+    filters:
+      "tag:Ansible": "{{ tag }}"
+  register: subnet_info
+
+# create NATGW 
+- name: Create new nat gateway and allocate new EIP
+  ec2_vpc_nat_gateway:
+    state: present
+    subnet_id: "{{ subnet_info.subnets | selectattr('tags.Name', 'search', 'public-subnet-a') | map(attribute='subnet_id') | first }}"
+    wait: true
+    region: "{{ region  }}" 
+    tags:
+      Name: "{{ nat_gw_name }}"
+      Ansible: "{{ tag }}" 
+    if_exist_do_not_create: true
+  register: natgw

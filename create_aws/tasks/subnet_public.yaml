@@ -1,0 +1,11 @@
+# Create PUBLIC SUBNET
+- name: Create public subnet
+  ec2_vpc_subnet:
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    cidr: "{{ item.pub_subnet_cidr }}"
+    az: "{{ item.subnet_az }}"
+    region: "{{ region }}"
+    resource_tags: { "Name":"{{ item.pub_subnet_name }}", "Ansible": "{{ tag }}" } 
+  register: pubsub_info
+  with_items:
+    - "{{ pub_subnet }}"
