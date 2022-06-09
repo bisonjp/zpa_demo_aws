@@ -2,7 +2,7 @@
   ec2_vpc_subnet_info:
     filters:
       "tag:Ansible": "{{ tag }}"
-  register: _subnet_facts
+  register: subnet_info
 
 - community.aws.ec2_asg:
     name: "{{ asg.name }}"
@@ -12,4 +12,4 @@
     max_size: "{{ asg.max_size }}"
     tags:
       - Ansible: "{{ tag }}"
-    vpc_zone_identifier: [  "{{ subnet_info.subnets | selectattr('tags.Name', 'search', 'private-subnet-a') | map(attribute='subnet_id') | first }}", "{{ subnet_info.subnets | selectattr('tags.Name', 'search', 'private-subnet-c') | map(attribute='subnet_id') | first }}"]
+    vpc_zone_identifier: ["{{ subnet_info.subnets | selectattr('tags.Name', 'search', asg.deployed_subnet_a) | map(attribute='subnet_id') | first }}", "{{ subnet_info.subnets | selectattr('tags.Name', 'search', asg.deployed_subnet_c) | map(attribute='subnet_id') | first }}"]

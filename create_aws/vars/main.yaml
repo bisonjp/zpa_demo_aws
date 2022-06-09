@@ -16,8 +16,10 @@
 
 # PRIVATE_SUBNET
   pri_subnet:
-    - { pri_subnet_cidr: "10.10.50.0/24" ,subnet_az: "ap-northeast-1a" ,pri_subnet_name: "{{ tag +'-private-subnet-a' }}" }
-    - { pri_subnet_cidr: "10.10.60.0/24" ,subnet_az: "ap-northeast-1c" ,pri_subnet_name:  "{{ tag +'-private-subnet-c' }}" }
+    - { pri_subnet_cidr: "10.10.70.0/24" ,subnet_az: "ap-northeast-1a" ,pri_subnet_name: "{{ tag +'-private-subnet-a' }}" }
+    - { pri_subnet_cidr: "10.10.80.0/24" ,subnet_az: "ap-northeast-1c" ,pri_subnet_name:  "{{ tag +'-private-subnet-c' }}" }
+    - { pri_subnet_cidr: "10.10.50.0/24" ,subnet_az: "ap-northeast-1a" ,pri_subnet_name:  "{{ tag +'-private-connector-subnet-a' }}" }
+    - { pri_subnet_cidr: "10.10.60.0/24" ,subnet_az: "ap-northeast-1c" ,pri_subnet_name:  "{{ tag +'-private-connector-subnet-c' }}" }
 
 # PUBLIC_SUBNET
   pub_subnet:

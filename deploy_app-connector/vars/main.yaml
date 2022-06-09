@@ -1,6 +1,6 @@
 # vars file for zpa demo
   tag: ""
-  provision_key: "" 
+  provision_key: ""
 
 # PROFILE
   profile: "ansible"
@@ -35,3 +35,5 @@
     name: "{{ tag + '-asg' }}" 
     min_size: 2
     max_size: 4
+    deployed_subnet_a: "{{ tag + '-private-connector-subnet-a' }}"
+    deployed_subnet_c: "{{ tag + '-private-connector-subnet-c' }}"
