@@ -65,20 +65,20 @@ By default, these resource will be created on **ap-northeast-1**.
   
 Run the playbook.  
 `ansible-playbook aws.yaml`
-    
-### Step2 Create EC2
-Open `deploy_ec2/vars/main.yaml` and modify variables for your environment.　　
-This is also sample variables are already defined, but need to define **tag** at least. 
 
-Run the playbook.  
-`ansible-playbook ec2.yaml`
-
-### Step3 Deploy App Connector with launch group and AutoScale group setting
+### Step2 Deploy App Connector with launch group and AutoScale group setting
 Open `deploy_app-connector/vars/main.yaml` and modify variables for your environment.　　
 This is also sample variables are already defined, but need to define **tag** and **provision_key** at least. 
 
 Run the playbook.  
 `ansible-playbook app-connector.yaml`
+
+### Step3 Create EC2
+Open `deploy_ec2/vars/main.yaml` and modify variables for your environment.　　
+This is also sample variables are already defined, but need to define **tag** at least. 
+
+Run the playbook.  
+`ansible-playbook ec2.yaml`
 
 ## （Optional) Delete all of Demo environment when finish using this environment
  !!!　***This instruction is not recommended to use production and shared environment.*** !!!  
