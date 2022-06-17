@@ -14,7 +14,8 @@ Install the following packages
 ## Overview
 This will make following AWS environment for simple testing of ZPA by Ansible. Also App Connector will connect to ZPA Serivce Edge automatically.  
 
-<img width="384" alt="image" src="https://user-images.githubusercontent.com/39214022/174227228-dae4959b-596a-49bf-bcc9-7ba0f85887d3.png">
+<img width="384" alt="image" src="https://user-images.githubusercontent.com/39214022/174228072-c4444a6f-6cb3-4d26-b26f-2f8b88ef9012.png">
+
 
 
 ## Directory structure
